@@ -1,6 +1,6 @@
 export default defineNuxtConfig({
   app: {
-     baseURL: '/riddle/',
+     baseURL: '/',
     head: {
       title: 'A Riddle',
       meta: [
@@ -18,7 +18,7 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: false
   },
-  ssr: true,
+  ssr: false,
   fonts: {
     defaults: {
       weight: ['200', '300', '400', '500', '600', '700', '800'],
@@ -36,10 +36,4 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     '~/modules/error-checker'
   ],
-  nitro: {
-    output: {
-      publicDir: './docs',
-      preset: 'static'
-    }
-  }
 })
