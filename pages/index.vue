@@ -42,14 +42,20 @@
         style="position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: #000; transition: transform 2s ease-in-out;"
         :style="{ transform: gate3Opening ? 'translateY(100%)' : 'translateY(0)' }"
       ></div>
-       <div :style="gate3TextStyle" style="position: relative; z-index: 1;">
+       <div 
+        @click="gate3Input?.focus()"
+        :style="gate3TextStyle" 
+        style="position: relative; z-index: 1; cursor: pointer;" 
+        class="text-center"
+       >
+         <input ref="gate3Input" v-model="typedSequence" type="text" style="position: absolute; top: -9999px; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
          <p class="text-3xl">
          You want to go through this next door?!
          </p>
          <p class="text-3xl">
            Then you better tell it to <span class="italic">open</span>.
-           <p>Otherwise it will stay shut.</p>
          </p>
+         <p class="mt-2 text-xl text-gray-400">Otherwise it will stay shut.</p>
        </div>
     </div>
     
@@ -199,7 +205,8 @@ const gate4Opacity = ref(1)
 const gate1Splitting = ref(false)
 const rickrollUrl = ref('https://www.youtube.com/embed/dQw4w9WgXcQ')
 let timerInterval = null
-let typedSequence = ''
+const gate3Input = ref(null)
+const typedSequence = ref('')
 
 // Gate 5 transition state
 const isCurtainFalling = ref(false)
@@ -254,41 +261,37 @@ const transitionToGate3 = () => {
   currentGate.value = 3
   setTimeout(() => {
     gate3TextOpacity.value = 1
+    // Focus input to bring up keyboard on all devices
+    gate3Input.value?.focus()
   }, 500)
 }
 
 
-// Gate 3 keyboard handler
-const handleKeyPress = (e) => {
+// Watcher for Gate 3 input
+watch(typedSequence, (newValue) => {
   if (currentGate.value !== 3 || gate3Opening.value) return
-  
-  const key = e.key.toLowerCase()
-  typedSequence += key
-  
-  if (typedSequence.slice(-4) === 'open') {
-    // Lock the handler and start the sequence
+
+  if (newValue.toLowerCase().slice(-4) === 'open') {
     gate3Opening.value = true
-    
-    // 1. Fade out Gate 3 text
     gate3TextOpacity.value = 0
-    
-    // 2. After door animation (2s), fade in Gate 4 content
+
+    // After 2s door animation, fade in Gate 4 content
     setTimeout(() => {
       gate4ContentOpacity.value = 1
     }, 2000)
 
-    // 3. After door animation, set gate to 4
     setTimeout(() => {
       currentGate.value = 4
     }, 2500)
 
     startTimer()
   }
-  
-  if (typedSequence.length > 20) {
-    typedSequence = typedSequence.slice(-10)
+
+  // Keep the sequence from getting too long
+  if (newValue.length > 20) {
+    typedSequence.value = newValue.slice(-10)
   }
-}
+})
 
 // Gate 4 timer with dots
 const startTimer = () => {
@@ -339,8 +342,6 @@ const skipGate2 = () => {
 }
 
 onMounted(() => {
-  document.addEventListener('keypress', handleKeyPress)
-
   const cheekyMessage = 'A curious mind, I see... But the secrets aren\'t in here. 😉';
   const style = 'color: #ffc107; font-size: 24px; font-weight: bold; text-shadow: 1px 1px 3px #000;';
 
@@ -359,7 +360,6 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  document.removeEventListener('keypress', handleKeyPress)
   if (timerInterval) clearInterval(timerInterval)
 })
 </script>

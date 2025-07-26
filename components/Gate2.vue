@@ -4,7 +4,7 @@
     <div class="absolute inset-0 bg-white text-gray-900 flex items-center justify-center p-10 flex-col">
       <div class="text-center mb-16">
         <p class="text-2xl font-light tracking-wide text-gray-700">
-          Now, this one, you cannot tackle straight on.<br>You have to think in circles, at least five revolutions.
+          Now, this one, you cannot tackle straight on.<br>You have to really think in circles, at least five times.
         </p>
       </div>
 
@@ -66,17 +66,12 @@ const dotStyle = computed(() => {
   }
 })
 
-const handlePointerMove = (e) => {
+const handleInteractionMove = (clientX, clientY) => {
   if (completedCircles.value >= REQUIRED_CIRCLES || !dotRef.value) return
 
   const rect = dotRef.value.getBoundingClientRect()
   const centerX = rect.left + rect.width / 2
   const centerY = rect.top + rect.height / 2
-  
-  // Use clientX/clientY for both mouse and touch
-  const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0)
-  const clientY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0)
-  
   const distance = Math.sqrt(Math.pow(clientX - centerX, 2) + Math.pow(clientY - centerY, 2))
 
   const trackingRadius = 400 // Increased from 100 to better capture wide circular motions
@@ -110,19 +105,33 @@ const handlePointerMove = (e) => {
   }
 }
 
+const handleMouseMove = (e) => {
+  handleInteractionMove(e.clientX, e.clientY)
+}
+
 const handleTouchMove = (e) => {
-  e.preventDefault() // Prevent scrolling
-  handlePointerMove(e)
+  if (e.touches.length > 0) {
+    handleInteractionMove(e.touches[0].clientX, e.touches[0].clientY)
+  }
+}
+
+const resetTracking = () => {
+  lastAngle.value = null
+  totalRotation.value = 0
 }
 
 onMounted(() => {
-  document.addEventListener('mousemove', handlePointerMove)
-  document.addEventListener('touchmove', handleTouchMove, { passive: false })
+  document.addEventListener('mousemove', handleMouseMove)
+  document.addEventListener('touchmove', handleTouchMove, { passive: true })
+  document.addEventListener('touchend', resetTracking)
+  document.addEventListener('mouseleave', resetTracking)
 })
 
 onUnmounted(() => {
-  document.removeEventListener('mousemove', handlePointerMove)
+  document.removeEventListener('mousemove', handleMouseMove)
   document.removeEventListener('touchmove', handleTouchMove)
+  document.removeEventListener('touchend', resetTracking)
+  document.removeEventListener('mouseleave', resetTracking)
 })
 </script>
 

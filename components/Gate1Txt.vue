@@ -1,20 +1,20 @@
 <template>
   <div style="max-width: 600px" class="pt-20 text-gray-800">
     <div class="mb-4">
-      <span @click="handleWordClick" style="cursor: default">Between</span> <span @click="handleWordClick" style="cursor: default">you</span> <span @click="handleWordClick" style="cursor: default">and</span> <span @click="handleWordClick" style="cursor: default">the</span> <span @click="handleWordClick" style="cursor: default">treasure</span> <span @click="handleWordClick" style="cursor: default">lie</span> <span @click="handleWordClick" style="cursor: default">four</span> <span @click="handleWordClick" style="cursor: default">challenges.</span>
+      <span @click="handleWordClick">Between</span> <span @click="handleWordClick">you</span> <span @click="handleWordClick">and</span> <span @click="handleWordClick">the</span> <span @click="handleWordClick">treasure</span> <span @click="handleWordClick">lie</span> <span @click="handleWordClick">four</span> <span @click="handleWordClick">challenges.</span>
     </div>
     <div class="mb-4">
-      <span @click="handleWordClick" style="cursor: default">The</span> <span @click="handleWordClick" style="cursor: default">first</span> <span @click="handleWordClick" style="cursor: default">one</span> <span @click="handleWordClick" style="cursor: default">is</span> <span @click="handleWordClick" style="cursor: default">easy:</span> <span @click="handleWordClick" style="cursor: default">you</span> <span @click="handleWordClick" style="cursor: default">just</span> <span @click="handleWordClick" style="cursor: default">need</span> <span @click="handleWordClick" style="cursor: default">to</span> <span @click="handleWordClick" style="cursor: default">point</span> <span @click="handleWordClick" style="cursor: default">to</span> <span @click="handleWordClick" style="cursor: default">a</span> <span @click="handleWordClick" style="cursor: default">word.</span>
+      <span @click="handleWordClick">The</span> <span @click="handleWordClick">first</span> <span @click="handleWordClick">one</span> <span @click="handleWordClick">is</span> <span @click="handleWordClick">easy:</span> <span @click="handleWordClick">you</span> <span @click="handleWordClick">just</span> <span @click="handleWordClick">need</span> <span @click="handleWordClick">to</span> <span @click="handleWordClick">point</span> <span @click="handleWordClick">to</span> <span @click="handleWordClick">a</span> <span @click="handleWordClick">word.</span>
     </div>
     <div class="mb-4 whitespace-nowrap">
-        <span @click="handleWordClick" style="cursor: default">Not</span> <span @click="handleWordClick" style="cursor: default">just</span> <span @click="handleWordClick" style="cursor: default">any</span> <span @click="handleWordClick" style="cursor: default">word.</span>
+        <span @click="handleWordClick">Not</span> <span @click="handleWordClick">just</span> <span @click="handleWordClick">any</span> <span @click="handleWordClick">word.</span>
         </div>
     <div class="mb-4 whitespace-nowrap">
-      <span @click="handleWordClick" style="cursor: default">It</span> <span @click="handleWordClick" style="cursor: default">must</span> <span @click="handleWordClick" style="cursor: default">be</span> <span @click="handleWordClick" style="cursor: default">the</span> <span @click="handleWordClick" style="cursor: default">right</span> <span @click="handleWordClick" style="cursor: default">word.</span>
+      <span @click="handleWordClick">It</span> <span @click="handleWordClick">must</span> <span @click="handleWordClick">be</span> <span @click="handleWordClick">the</span> <span @click="handleWordClick">right</span> <span @click="handleWordClick">word.</span>
       </div><div class="mb-4 whitespace-nowrap">
       
-      <span @click="handleWordClick" style="cursor: default">But</span> <span @click="handleWordClick" style="cursor: default">once</span> <span @click="handleWordClick" style="cursor: default">you</span> <span @click="handleWordClick" style="cursor: default">point</span> <span @click="handleWordClick" style="cursor: default">to</span> <span @click="handleWordClick" style="cursor: default">this</span>
-      <span @click="handleWordClick" style="cursor: default"> word</span> <span @click="handleWordClick" style="cursor: default">you</span> <span @click="handleWordClick" style="cursor: default">will</span> <span @click="handleWordClick" style="cursor: default">let</span> <span @click="handleWordClick" style="cursor: default">through.</span>
+      <span @click="handleWordClick">But</span> <span @click="handleWordClick">once</span> <span @click="handleWordClick">you</span> <span @click="handleWordClick">point</span> <span @click="handleWordClick">to</span> <span @click="handleWordClick">this</span>
+      <span @click="handleWordClick" data-word="correct"> word</span> <span @click="handleWordClick">you</span> <span @click="handleWordClick">will</span> <span @click="handleWordClick">let</span> <span @click="handleWordClick">through.</span>
     </div>
   </div>
 </template>
@@ -23,8 +23,9 @@
 const emit = defineEmits(['update:modelValue'])
 
 // Gate 1 handler
-const handleWordClick = (target) => {
-  if(target.target.innerText !== ' word') return
-  emit('update:modelValue', true)
+const handleWordClick = (event) => {
+  if (event.target.dataset.word === 'correct') {
+    emit('update:modelValue', true)
+  }
 }
 </script>
