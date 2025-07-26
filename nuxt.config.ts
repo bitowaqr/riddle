@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
   app: {
+     baseURL: '/riddle/',
     head: {
       title: 'A Riddle',
       meta: [
