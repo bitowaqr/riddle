@@ -34,5 +34,10 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxtjs/sitemap',
     '~/modules/error-checker'
-  ]
+  ],
+  nitro: {
+    output: {
+      publicDir: './docs'
+    }
+  }
 })
