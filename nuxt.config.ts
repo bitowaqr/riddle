@@ -17,7 +17,7 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: false
   },
-  ssr: false,
+  ssr: true,
   fonts: {
     defaults: {
       weight: ['200', '300', '400', '500', '600', '700', '800'],
@@ -37,7 +37,8 @@ export default defineNuxtConfig({
   ],
   nitro: {
     output: {
-      publicDir: './docs'
+      publicDir: './docs',
+      preset: 'static'
     }
   }
 })
