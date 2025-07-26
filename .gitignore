@@ -1,0 +1,42 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# agent page resources
+_new_site.json
+
+# PixelBot process artifacts
+development_board.json
+processed_board.json
+review_board.json
+comprehensive_review_board.json
+comprehensive_review_report.json
+final_touch_report.json
+described_assets.json
+design_system.json
+development_board_error_context.json
+error_summary.json
+review-notes.md
+CLAUDE.md
+.claude/
+amplify.yml
